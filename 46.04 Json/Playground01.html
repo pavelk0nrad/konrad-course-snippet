@@ -85,6 +85,11 @@
                 .then(response => response.json())
                 .then(data => {
                     deck = data; // Uložíme karty do lízacího balíčku
+                    const playerHand = document.getElementById('player-hand')
+                    deck.forEach(card => {
+                        const cardDiv = document.createElement('div');
+                        cardDiv.classList.add('card')
+                        playerHand.appendChild(cardDiv)
                     })
 
                 })
