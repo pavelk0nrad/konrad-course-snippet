@@ -81,7 +81,7 @@
         // Načtení karet z JSON souboru
         
         function loadCards() {
-            fetch('cards.json') // Předpokládá se, že máte cards.json soubor
+            fetch('cards.json') 
                 .then(response => response.json())
                 .then(data => {
                     deck = data; // Uložíme karty do lízacího balíčku
