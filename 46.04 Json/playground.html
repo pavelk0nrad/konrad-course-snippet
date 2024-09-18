@@ -88,13 +88,6 @@
                 .then(data => {
                     deck = data; // Uložíme karty do lízacího balíčku
                     console.log(deck)
-                    const playerHand = document.getElementById('player-hand')
-                    deck.forEach(card => {
-                        const cardDiv = document.createElement('div')
-                        cardDiv.classList.add('card')
-                        cardDiv.textContent = card.suit + card.value
-                        playerHand.appendChild(cardDiv)
-                    })
                 })
                 .catch(error => console.error('Chyba při načítání karet:', error));
         }
