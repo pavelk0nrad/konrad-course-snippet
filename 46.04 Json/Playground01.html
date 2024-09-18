@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karetní hra Prší</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #2e8b57;
+        }
+
+        #game-board {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #player-hand {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .card {
+            width: 80px;
+            height: 120px;
+            margin: 0 10px;
+            background-color: white;
+            border-radius: 10px;
+            border: 2px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            color: black;
+        }
+
+        .card.red {
+            color: red;
+        }
+
+        #deck, #discard-pile {
+            width: 150px;
+            height: 200px;
+            background-color: #fff;
+            margin: 20px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 2px solid black;
+        }
+
+        #deck {
+            background-color: white;
+        }
+
+        #discard-pile {
+        }
+    </style>
+</head>
+<body>
+    <div id="game-board">
+        <div id="deck">Lízací balíček</div>
+        <div id="discard-pile">Odhazovací balíček</div>
+        <div id="player-hand"></div>
+    </div>
+
+    <script>
+        let deck = []; // Lízací balíček
+        let discardPile = []; // Odhazovací balíček
+
+        // Načtení karet z JSON souboru
+        
+        function loadCards() {
+            fetch('cards.json') // Předpokládá se, že máte cards.json soubor
+                .then(response => response.json())
+                .then(data => {
+                    deck = data; // Uložíme karty do lízacího balíčku
+                    console.log(deck[8])
+                    const playerHand = document.getElementById('player-hand')
+                    deck.forEach(card => {
+                        const cardDiv = document.createElement('div');
+                        cardDiv.classList.add('card')
+                        playerHand.appendChild(cardDiv)
+                    })
+
+                })
+                .catch(error => console.error('Chyba při načítání karet:', error));
+        }
+
+        
+      
+        loadCards();
+    </script>
+</body>
+</html>

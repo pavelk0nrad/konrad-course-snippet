@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karetní hra Prší</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #2e8b57;
+        }
+
+        #game-board {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #player-hand {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .card {
+            width: 80px;
+            height: 120px;
+            margin: 0 10px;
+            background-color: white;
+            border-radius: 10px;
+            border: 2px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            color: black;
+        }
+
+        .card.red {
+            color: red;
+        }
+
+        #deck, #discard-pile {
+            width: 150px;
+            height: 200px;
+            background-color: #fff;
+            margin: 20px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 2px solid black;
+        }
+
+        #deck {
+            background-color: white;
+        }
+
+        #discard-pile {
+            background-color: white;
+        }
+    </style>
+</head>
+    <!-- Start of Frontend -->
+
+
+<body>
+    <div id="game-board">
+        <div id="deck">Lízací balíček</div>
+        <div id="discard-pile">Odhazovací balíček</div>
+        <div id="player-hand"></div>
+    </div>
+
+
+    <!-- End of Frontend -->
+
+    <!-- Start of Back-end structure -->
+    <script>
+        let deck = []; 
+        let discardPile = []; 
+
+        // Načtení karet z JSON souboru
+        function loadCards() {
+            fetch('cards.json') // cesta k souboru
+                .then(response => response.json())
+                .then(data => {
+                    deck = data; // Uložíme data do proměnné deck
+                })
+                .catch(error => console.error('Chyba při načítání karet:', error)); // Jestliže se něco během procesu pokazí, uloží se informace o chybě, které se vypíšou do konzole.
+        }
+
+        // Zde děláme element s ID #deck klikatelným.
+        document.getElementById('deck').addEventListener('click', () => {
+            if (deck.length > 0) {
+                const card = deck.pop(); // Zde nastavujeme proměnnou card, která má v sobě ukrytou funkci na odebrání karty ze seznamu, který je uložený v proměnné deck.
+                addCardToHand(card); // Zde se volá funkce, která předá parametr card. To je proměnná, kterou jsme deklarovali o řádek výš. Jako parametr tedy předává, že program odebere poslední položku ze seznamu v proměnné deck.
+            } else {
+                alert("Lízací balíček je prázdný!");
+            }
+        });
+
+        // Přidá kartu do ruky hráče
+        function addCardToHand(card) {
+            const playerHand = document.getElementById('player-hand');
+            const cardDiv = document.createElement('div');
+            cardDiv.classList.add('card');
+            if (card.color === 'red') {
+                cardDiv.classList.add('red');
+            }
+            cardDiv.textContent = `${card.suit} ${card.value}`;
+            cardDiv.addEventListener('click', () => discardCard(cardDiv, card));
+            playerHand.appendChild(cardDiv);
+        }
+
+        // Odhodí kartu do odhazovacího balíčku
+        function discardCard(cardDiv, card) {
+            const discardPileDiv = document.getElementById('discard-pile');
+            discardPileDiv.textContent = `${card.suit} ${card.value}`; // Zobrazíme kartu na odhazovacím balíčku
+            cardDiv.remove(); // Odstraníme kartu z hráčovy ruky
+            discardPile.push(card); // Přidáme kartu do pole pro odhazovací balíček
+        }
+
+        // Načtení karet při startu hry
+        loadCards();
+    </script>
+    <!-- End of Backend -->
+
+</body>
+</html>

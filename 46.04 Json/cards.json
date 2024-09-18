@@ -1,0 +1,37 @@
+[
+    { "suit": "♥", "value": "7", "color": "red" },
+    { "suit": "♥", "value": "8", "color": "red" },
+    { "suit": "♥", "value": "9", "color": "red" },
+    { "suit": "♥", "value": "10", "color": "red" },
+    { "suit": "♥", "value": "J", "color": "red" },
+    { "suit": "♥", "value": "Q", "color": "red" },
+    { "suit": "♥", "value": "K", "color": "red" },
+    { "suit": "♥", "value": "A", "color": "red" },
+
+    { "suit": "♦", "value": "7", "color": "red" },
+    { "suit": "♦", "value": "8", "color": "red" },
+    { "suit": "♦", "value": "9", "color": "red" },
+    { "suit": "♦", "value": "10", "color": "red" },
+    { "suit": "♦", "value": "J", "color": "red" },
+    { "suit": "♦", "value": "Q", "color": "red" },
+    { "suit": "♦", "value": "K", "color": "red" },
+    { "suit": "♦", "value": "A", "color": "red" },
+
+    { "suit": "♠", "value": "7", "color": "black" },
+    { "suit": "♠", "value": "8", "color": "black" },
+    { "suit": "♠", "value": "9", "color": "black" },
+    { "suit": "♠", "value": "10", "color": "black" },
+    { "suit": "♠", "value": "J", "color": "black" },
+    { "suit": "♠", "value": "Q", "color": "black" },
+    { "suit": "♠", "value": "K", "color": "black" },
+    { "suit": "♠", "value": "A", "color": "black" },
+
+    { "suit": "♣", "value": "7", "color": "black" },
+    { "suit": "♣", "value": "8", "color": "black" },
+    { "suit": "♣", "value": "9", "color": "black" },
+    { "suit": "♣", "value": "10", "color": "black" },
+    { "suit": "♣", "value": "J", "color": "black" },
+    { "suit": "♣", "value": "Q", "color": "black" },
+    { "suit": "♣", "value": "K", "color": "black" },
+    { "suit": "♣", "value": "A", "color": "black" }
+]
