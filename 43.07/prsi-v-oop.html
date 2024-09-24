@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Game</title>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #2e8b57;
+        }
+
+        #game-board {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #player-hand {
+            display: flex;
+            margin-top: 20px;
+        }
+        #deck, #discard-pile {
+            width: 150px;
+            height: 200px;
+            background-color: #fff;
+            margin: 20px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 2px solid black;
+        }
+
+        .card {
+            width: 100px;
+            height: 150px;
+            border: 1px solid #000;
+            display: inline-block;
+            text-align: center;
+            line-height: 150px;
+            margin: 5px;
+            font-size: 24px;
+            background-color: white;
+            transition: transform 0.5s ease;
+        }
+        .red {
+            color: red;
+        }
+        .dealt {
+            transform: translateY(10px);
+        }
+        .discard-animation {
+            transform: translateY(-100px);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+      
+    </style>
+</head>
+<body>
+    <div id="game-board">
+        <div id="deck">Lízací balíček</div>
+        <div id="discard-pile">Odhazovací balíček</div>
+        <div id="player-hand"></div>
+    </div>
+
+    <script>
+        class Card {
+            constructor(suit, value, color) {
+                this.suit = suit;
+                this.value = value;
+                this.color = color;
+                this.isFaceUp = false;
+            }
+
+            flip() {
+                this.isFaceUp = !this.isFaceUp;
+            }
+
+            createCardElement() {
+                const cardDiv = document.createElement('div');
+                cardDiv.classList.add('card');
+                if (this.color === 'red') {
+                    cardDiv.classList.add('red');
+                }
+                cardDiv.textContent = this.isFaceUp ? `${this.suit} ${this.value}` : ''; 
+                return cardDiv;
+            }
+
+            dealCard() {
+                const cardElement = this.createCardElement();
+                setTimeout(() => {
+                    cardElement.classList.add('dealt');
+                }, 100);
+                return cardElement;
+            }
+
+            discard(cardElement, discardPile) {
+                cardElement.classList.add('discard-animation');
+                setTimeout(() => {
+                    cardElement.remove();
+                    discardPile.textContent = `${this.suit} ${this.value}`;
+                    logGameState(); // Log state after discard
+                }, 500);
+            }
+        }
+
+        let deck = [];
+        let playerHand = [];
+
+        function loadCards() {
+            const cardData = [
+                { "suit": "♥", "value": "7", "color": "red" },
+                { "suit": "♥", "value": "8", "color": "red" },
+                { "suit": "♥", "value": "9", "color": "red" },
+                { "suit": "♥", "value": "10", "color": "red" },
+                { "suit": "♥", "value": "J", "color": "red" },
+                { "suit": "♥", "value": "Q", "color": "red" },
+                { "suit": "♥", "value": "K", "color": "red" },
+                { "suit": "♥", "value": "A", "color": "red" },
+
+                { "suit": "♦", "value": "7", "color": "red" },
+                { "suit": "♦", "value": "8", "color": "red" },
+                { "suit": "♦", "value": "9", "color": "red" },
+                { "suit": "♦", "value": "10", "color": "red" },
+                { "suit": "♦", "value": "J", "color": "red" },
+                { "suit": "♦", "value": "Q", "color": "red" },
+                { "suit": "♦", "value": "K", "color": "red" },
+                { "suit": "♦", "value": "A", "color": "red" },
+
+                { "suit": "♠", "value": "7", "color": "black" },
+                { "suit": "♠", "value": "8", "color": "black" },
+                { "suit": "♠", "value": "9", "color": "black" },
+                { "suit": "♠", "value": "10", "color": "black" },
+                { "suit": "♠", "value": "J", "color": "black" },
+                { "suit": "♠", "value": "Q", "color": "black" },
+                { "suit": "♠", "value": "K", "color": "black" },
+                { "suit": "♠", "value": "A", "color": "black" },
+
+                { "suit": "♣", "value": "7", "color": "black" },
+                { "suit": "♣", "value": "8", "color": "black" },
+                { "suit": "♣", "value": "9", "color": "black" },
+                { "suit": "♣", "value": "10", "color": "black" },
+                { "suit": "♣", "value": "J", "color": "black" },
+                { "suit": "♣", "value": "Q", "color": "black" },
+                { "suit": "♣", "value": "K", "color": "black" },
+                { "suit": "♣", "value": "A", "color": "black" }
+            ];
+            deck = cardData.map(card => new Card(card.suit, card.value, card.color));
+        }
+
+        document.getElementById('deck').addEventListener('click', () => {
+            const deckElement = document.getElementById('deck');
+
+            if (deck.length > 0) {
+                const card = deck.pop();
+                deckElement.classList.add('deck-animation');
+
+                setTimeout(() => {
+                    addCardToHand(card);
+                    deckElement.classList.remove('deck-animation');
+                    logGameState();
+                }, 300); 
+            } else {
+                alert("Lízací balíček je prázdný!");
+            }
+        });
+
+        function addCardToHand(card) {
+            const playerHandElement = document.getElementById('player-hand');
+            const cardElement = card.createCardElement();
+            playerHandElement.appendChild(cardElement);
+            playerHand.push(card);
+            card.isFaceUp = true;
+
+            setTimeout(() => {
+                cardElement.textContent = `${card.suit} ${card.value}`;
+                cardElement.classList.add('dealt');
+            }, 10);
+
+            cardElement.addEventListener('click', () => {
+                card.discard(cardElement, document.getElementById('discard-pile'));
+                playerHand = playerHand.filter(c => c !== card); 
+            });
+        }
+
+        function logGameState() {
+            console.clear();
+
+            // Log the player's hand
+            console.log("Karty v ruce:", playerHand.map(card => `${card.suit} ${card.value}`).join(", "));
+
+            // Log the deck
+            console.log("Karty v balíčku:", deck.map(card => `${card.suit} ${card.value}`).join(", ") || "Prázdný balíček");
+
+            // Log the discard pile
+            const discardPile = document.getElementById('discard-pile').textContent;
+            console.log("Odhazovací balíček:", discardPile || "Prázdný odhazovací balíček");
+        }
+
+        loadCards();
+    </script>
+</body>
+</html>
