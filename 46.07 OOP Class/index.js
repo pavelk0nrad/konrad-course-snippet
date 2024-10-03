@@ -1,13 +1,99 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #2e8b57;
+        }
+
+        #game-board {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #player-hand, #enemy-hand {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        #deck, #discard-pile {
+            width: 150px;
+            height: 200px;
+            background-color: #fff;
+            margin: 20px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 2px solid black;
+            position: relative;
+        }
+
+        .card {
+            width: 100px;
+            height: 150px;
+            border: 2px solid #000;
+            display: inline-block;
+            text-align: center;
+            line-height: 150px;
+            margin: 5px;
+            font-size: 24px;
+            background-color: white;
+            transition: transform 0.5s ease-in-out, opacity 0.5s ease;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .flipped {
+            background-color: lightgray;
+        }
+
+        .discarded-card {
+            position: absolute;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            top: 0;
+            left: 0;
+        }
+        .dealt {
+            transform: translateY(5px);
+
+        }
+        .discard-animation {
+        transform: translateY(-100px) rotate(15deg);
+        opacity: 0;
+        transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-board">
+        <div id="deck">Lízací balíček</div>
+        <div id="discard-pile"></div>
+        <div id="enemy-hand">Protihráč</div>
+        <div id="player-hand">Hráčská ruka</div>
+    </div>
+
+    <script>
        class Card {
     constructor(suit, value) {
         this.suit = suit;
         this.value = value;
-        this.isFaceUp = false; 
+        this.isFaceUp = false; // Počáteční stav, karta je otočená dolů
     }
 
     flip() {
-        this.isFaceUp = !this.isFaceUp;
+        this.isFaceUp = !this.isFaceUp; // Přepnutí stavu
     }
 
     createCardElement() {
@@ -16,13 +102,13 @@
 
        
 
-        this.updateCardDisplay(cardDiv); 
+        this.updateCardDisplay(cardDiv); // Aktualizujeme zobrazení karty
         return cardDiv;
     }
 
     updateCardDisplay(cardElement) {
-        cardElement.textContent = this.isFaceUp ? `${this.suit} ${this.value}` : 'lick'; 
-        cardElement.classList.toggle('flipped', !this.isFaceUp); 
+        cardElement.textContent = this.isFaceUp ? `${this.suit} ${this.value}` : 'lick'; // Zobrazit hodnotu nebo 'Card Back'
+        cardElement.classList.toggle('flipped', !this.isFaceUp); // Přidat třídu pro otáčení
     }
 
     discard(discardPileElement) {
@@ -36,7 +122,7 @@
         class Deck {
     constructor() {
         this.cards = [];
-        this.currentCard = null; /
+        this.currentCard = null; // Tady uchováváme aktuální kartu
         this.loadCards();
     }
 
@@ -85,20 +171,20 @@
     drawCard() {
         if (this.cards.length > 0) {
             // Uložíme aktuální kartu
-            this.currentCard = this.cards[this.cards.length - 1]; 
-            const drawnCard = this.cards.pop(); 
+            this.currentCard = this.cards[this.cards.length - 1]; // Nejvyšší karta
+            const drawnCard = this.cards.pop(); // Odstranění karty z balíčku
 
             
-         
+            // Zde můžeme vytvořit element karty a přidat jej do DOM
             const cardElement = drawnCard.createCardElement();
             const deckElement = document.getElementById('deck');
-            deckElement.innerHTML = ''; 
+            deckElement.innerHTML = ''; // Vyčistíme div decku
             deckElement.appendChild(cardElement);
             cardElement.classList.add('dealt')
 
             setTimeout(() => {
                 cardElement.classList.remove('dealt');
-            }, 100);
+            }, 100); // Přidání karty do decku
 
             return drawnCard;
         } else {
@@ -119,7 +205,7 @@ class Player {
         if (card) {
             this.hand.push(card);
             console.log(card)
-            card.flip(); 
+            card.flip(); // Otočení karty při přidání do ruky
         }
     }
 
@@ -127,7 +213,7 @@ class Player {
         const index = this.hand.indexOf(card);
         if (index > -1) {
             this.hand.splice(index, 1);
-            card.discard(discardPile); 
+            card.discard(discardPile); // Karta bude zobrazená v odhazovacím balíčku
             this.discard.addDrawnCard(card);
             logGameState();
         }
@@ -141,7 +227,7 @@ class Discard {
     }
 
     addDrawnCard(card) {
-        card.flip();
+        card.flip(); // Otočení karty při odhození
         this.drawnCards.push(card);
     }
 }
@@ -182,8 +268,11 @@ class Discard {
 
 
         function logGameState() {
+            console.clear()
             console.log("Karty v ruce hráče:", player.hand.map(card => `${card.suit} ${card.value}`).join(", "));
             console.log("Karty v balíčku:", deck.cards.map(card => `${card.suit} ${card.value}`).join(", ") || "Prázdný balíček");
             console.log("Odhozené karty:", discard.drawnCards.map(card => `${card.suit} ${card.value}`).join(", ") || "Žádné odhozené karty");
         }
     </script>
+</body>
+</html>
