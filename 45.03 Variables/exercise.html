@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cvičení s proměnnými</title>
+    <style>
+        body {
+            font-family: monospace;
+            background-color: #000;
+            margin: 0;
+            padding: 20px;
+            color: #00ff00; 
+        }
+        h1 {
+            color: #00ff00;
+            text-align: center;
+            text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
+        }
+        #codeBlock {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            white-space: pre;
+            font-family: monospace;
+            border: 2px solid #00ff00;
+            overflow: auto;
+            line-height: 1.5;
+            
+        }
+        .comment {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .user{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        #userCode {
+           
+            background-color: #1a1a1a;
+            border: 2px solid #00ff00;
+            padding: 10px;
+            border-radius: 5px;
+            color: #00ff00;
+            margin-top: 10px;
+            outline: none;
+            height: 150px;
+            resize: none;
+            font-family: monospace;
+            font-size: 16px;
+            width: 200px;
+           
+        }
+        .placeholder {
+            animation: blink 1s step-end infinite; /* Přidání blikajícího efektu */
+            color: rgba(255, 255, 255, 0.6); /* Barva placeholderu */
+        }
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1; /* Plná viditelnost */
+            }
+            50% {
+                opacity: 0; /* Základní transparentnost pro blikání */
+            }
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #00ff00;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 0 5px #00ff00;
+        }
+        button:hover {
+            background-color: #007700;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+        }
+        .ascii {
+            font-size: 14px;
+            color: #00ff00;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cvičení: Prohození proměnných</h1>
+    <div id="codeBlock">
+        <span class="comment">// Tvým úkolem je pomocí JavaScriptu prohodit hodnoty z proměnné a do b.</span><br>
+        <span class="comment">// Zde začíná funkce, která ověří, jestli se ti zadání povedlo splnit.</span><br>
+        <span class="comment">// S touto částí nemůžeš manipulovat</span><br>
+        <br>
+        <span class="ascii">function Test(a, b) {</span><br>
+        <span class="ascii">    if (a == 12) {</span><br>
+        <span class="ascii">        return alert("a = " + a + "\\n" + "b = " + b + "\\nBravo!");</span><br>
+        <span class="ascii">    }</span><br>
+        <span class="ascii">    else</span><br>
+        <span class="ascii">        return alert("a = " + a + "\\n" + "b = " + b + "\\nNěco není správně!");</span><br>
+        <span class="ascii">}</span><br>
+        <br>
+        <span class="comment">// Zde začíná část, kde se deklarují proměnné a, b.</span><br>
+        <span class="comment">// S touto částí také nemůžeš manipulovat.</span><br>
+        <br>
+        <span class="ascii">let a = "10";</span><br>
+        <span class="ascii">let b = "12";</span><br>
+        <br>
+        <span class="comment">// Po tvém kódu přichází příkaz, který spustí test, jestli jsi zapsal kód správně</span><br>
+        <span class="ascii">Test(a, b);</span><br>
+    </div>
+    <div class="user">
+    <textarea id="userCode" placeholder="Zde napiš svůj kód!"></textarea>
+    <button id="runCode">Test(a, b)</button>
+    </div>
+    <footer>
+        &copy; 2024 Interaktivní cvičení s proměnnými
+    </footer>
+    <script>
+        function Test(a, b) {
+            if (a == 12 && b == 10) {
+                displayBravo();
+            } else {
+                alert("a = " + a + "\n" + "b = " + b + "\nNěco není správně!");
+                location.reload(true);
+
+
+            }
+        }
+
+        let a = "10";
+        let b = "12";
+
+        function displayBravo() {
+    const overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.top = 0;
+    overlay.style.left = 0;
+    overlay.style.width = "100%";
+    overlay.style.height = "100%";
+    overlay.style.backgroundColor = "rgba(0, 0, 0, 0.7)"; // Poloprůhledné pozadí
+    overlay.style.color = "#00ff00";
+    overlay.style.textAlign = "center";
+    overlay.style.fontSize = "24px";
+    overlay.style.display = "flex";
+    overlay.style.alignItems = "center"; // Vertikální zarovnání
+    overlay.style.justifyContent = "center"; // Horizontální zarovnání
+    overlay.style.zIndex = 1000; // Zajištění, aby byl overlay nad ostatním obsahem
+
+    const message = "Bravo!";
+    let i = 0;
+    const interval = setInterval(() => {
+        if (i < message.length) {
+            overlay.textContent += message[i]; // Přidání jednotlivého znaku
+            i++;
+        } else {
+            clearInterval(interval);
+        }
+    }, 500); 
+
+    document.body.appendChild(overlay); 
+
+    setTimeout(() => {
+        overlay.remove();
+    }, 10000);
+}
+
+
+        document.getElementById("runCode").onclick = function() {
+            const userCode = document.getElementById("userCode").value;
+            eval(userCode);
+            Test(a, b);
+        };
+    </script>
+</body>
+</html>
