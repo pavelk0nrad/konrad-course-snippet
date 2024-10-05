@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap" rel="stylesheet">
+    <title>JavaScript Snippet for Graphics</title>
+    <style>
+        body {
+       
+            font-family: "Mochiy Pop One", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+           
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #createdDiv {
+            margin-top: 20px;
+            padding: 20px;
+           
+            border-radius: 10px;
+            width: 300px;
+            height: 200px;
+            text-align: center;
+            background-color: #898989;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.5s, width 0.5s;
+        }
+
+        textarea {
+            width: 300px;
+            height: 100px;
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 14px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            resize: none;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #c412d8;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #d812d1;
+        }
+    </style>
+</head>
+<body>
+
+
+    <h1>Change color to green and width to 500px by javascript</h1>
+    <p>let backgroundColor</p>
+    <p>let width</p>
+    <p>displayInfo(backgroundColor, width)</p>
+         
+    <textarea id="code" placeholder="Write your code here..."></textarea>
+    <button id="run">Run Code</button>
+
+    <div id="createdDiv">actual width = 300px<br>actual color = grey</div>
+
+    <script>
+        document.getElementById('run').addEventListener('click', function() {
+            let code = document.getElementById('code').value;
+
+            try {
+                document.getElementById('createdDiv').innerHTML = '';
+                eval(code);
+            } catch (error) {
+                document.getElementById('createdDiv').innerHTML = 'Error: ' + error.message;
+            }
+        });
+
+        function displayInfo(backgroundColor, width) {
+            const createdDiv = document.getElementById('createdDiv');
+            createdDiv.style.backgroundColor = backgroundColor;
+            if (width) {
+                createdDiv.style.width = width + 'px';
+            }
+            createdDiv.innerHTML = `Creating: <br> Background Color: ${backgroundColor} <br> Width: ${width}px`;
+        }
+    </script>
+
+    <script>
+        // Example usage: Uncomment the line below to test
+        // displayInfo('lightblue', 300);
+    </script>
+
+</body>
+</html>
