@@ -25,12 +25,16 @@
         h1 {
             color: #333;
             margin-bottom: 20px;
+            max-width: 30ch;
+            text-align: center;
         }
 
         #createdDiv {
             margin-top: 20px;
             padding: 20px;
-           
+            display: flex;
+            justify-content: center;
+            align-items: center;
             border-radius: 10px;
             width: 300px;
             height: 200px;
@@ -38,6 +42,10 @@
             background-color: #898989;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: background-color 0.5s, width 0.5s;
+        }
+        .hint {
+            font-size: large;
+            text-align: center;
         }
 
         textarea {
@@ -72,10 +80,10 @@
 <body>
 
 
-    <h1>Change color to green and width to 500px by javascript</h1>
-    <p>let backgroundColor</p>
+    <h1>Change color of grey div to green and width to 500px using javascript</h1>
+    <div class="hint"><p>let backgroundColor</p>
     <p>let width</p>
-    <p>displayInfo(backgroundColor, width)</p>
+    <p>displayInfo(backgroundColor, width)</p></div>
          
     <textarea id="code" placeholder="Write your code here..."></textarea>
     <button id="run">Run Code</button>
