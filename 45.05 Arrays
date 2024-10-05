@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cvičení na Pole - Push, Pop, Funkce a Proměnné</title>
+    <style>
+        body {
+            
+            font-family: "Varela Round", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #218838;
+        }
+        h1 {
+            text-align: center;
+            display: flex;
+            width: 100%;
+            justify-content: center;
+        }
+        .container {
+            display: flex;
+            background-color: #fff;
+            flex-direction: row;
+            flex-wrap: wrap;
+            border-radius: 20px;
+            max-width: 900px;
+            gap: 20px;
+            padding: 40px;
+            
+        }
+        .wrapper{
+            display: flex;
+            flex-direction: row;
+            gap: 40px;
+            
+            justify-content: space-around;
+        }
+
+        #gameState {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            width: 400px;
+            height: 350px;
+        }
+        #description {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 5px;
+            height: 350px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            width: 400px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            margin-right: 10px;
+            cursor: pointer;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        func {
+            background-color: #eee;
+            font-style: italic;
+            font-size: small;
+            padding: 2px 4px;
+            border-radius: 4px;
+            
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <h1>Karetní Hra - Cvičení na Pole, Funkce, Proměnné</h1>
+    
+    <div id="gameState">
+        <!-- Zde se zobrazuje stav balíčku, hráčovy ruky a odhazovacího balíčku -->
+    </div>
+    
+    <div id="description">
+        <!-- Zde se zobrazuje detailní popis toho, co se právě děje a proč se to děje -->
+    </div>
+
+    <div class ='wrapper' style="text-align: center;">
+     
+        <button onclick="drawCard()">drawCard()</button>
+        <button onclick="playCard()">playCard()</button>
+     
+        <func>function drawCard(){<br>
+            temp = deck[lastItem]<br>
+            deck.pop()<br>
+            player.push(temp)<br>
+        
+            playerLastItem = player.length -1;<br>
+            lastItem = deck.length -1;<br>
+            gameState()<br>
+        }</func>
+       <func>function playCard(){<br>
+            playerTemp = player[playerLastItem]<br>
+            player.pop()<br>
+            discardPile.push(playerTemp)<br>
+        
+            lastItem = deck.length -1;<br>
+            playerLastItem = player.length -1;<br>
+            gameState()<br>
+        }</func>
+        
+  
+   
+</div>
+    <script>
+        let hearts = ['♥️7', '♥️8', '♥️9', '♥️10', '♥️J', '♥️Q', '♥️K', '♥️A'];
+        let diamonds = ['♦️7', '♦️8', '♦️9', '♦️10', '♦️J', '♦️Q', '♦️K', '♦️A'];
+        let spades = ['♣️7', '♣️8', '♣️9', '♣️10', '♣️J', '♣️Q', '♣️K', '♣️A'];
+        let clubs = ['♠️7', '♠️8', '♠️9', '♠️10', '♠️J', '♠️Q', '♠️K', '♠️A'];
+
+        let deck = [...hearts, ...diamonds, ...spades, ...clubs];  
+        let player = [];  
+        let discardPile = [];  
+
+        let temp;  // Dočasná proměnná pro právě vytáhnutou kartu
+        let playerTemp;  // Dočasná proměnná pro zahranou kartu
+
+        // Funkce pro vytáhnutí karty
+        function drawCard() {
+            if (deck.length > 0) {
+                temp = deck.pop();  // Odstranění poslední karty z balíčku a její uložení do proměnné temp
+                player.push(temp);  // Přidání vytáhnuté karty do hráčovy ruky
+                
+                // Zobrazení vysvětlení proměnné temp
+                updateDescription(`
+                    <p><strong>Akce:</strong> Hráč vytáhl kartu.</p>
+                    <p><strong>Co se stalo:</strong> Karta <code>${temp}</code> byla odstraněna z balíčku pomocí <code>pop()</code> a uložena do proměnné <code>temp</code>.</p>
+                    <p><strong>Proč:</strong> Proměnná <code>temp</code> dočasně uchovává vytáhnutou kartu, což nám umožňuje s touto kartou dále pracovat. Díky tomu můžeme kartu zobrazit nebo s ní manipulovat, než ji přidáme do hráčovy ruky.</p>
+                   
+                `);
+                gameState();  // Aktualizace stavu hry
+            } else {
+                updateDescription('Balíček je prázdný, nelze vytáhnout kartu.');  // Ošetření prázdného balíčku
+            }
+        }
+
+        // Funkce pro zahrání karty
+        function playCard() {
+            if (player.length > 0) {
+                playerTemp = player.pop();  // Odstranění poslední karty z hráčovy ruky a její uložení do proměnné playerTemp
+                discardPile.push(playerTemp);  // Přidání zahrané karty do odhazovacího balíčku
+                
+                updateDescription(`
+                    <p><strong>Akce:</strong> Hráč zahrál kartu.</p>
+                    <p><strong>Co se stalo:</strong> Karta <code>${playerTemp}</code> byla odstraněna z hráčovy ruky a přidána do odhazovacího balíčku.</p>
+                    <p><strong>Proč:</strong> Proměnná <code>playerTemp</code> uchovává kartu, kterou hráč právě zahrál. Umožňuje nám efektivně sledovat, jaké karty byly použity a jaké zůstávají v ruce.</p>
+                   
+                `);
+                gameState();  // Aktualizace stavu hry
+            } else {
+                updateDescription('Hráč nemá žádné karty, které by mohl zahrát.');  // Ošetření prázdné ruky
+            }
+        }
+
+        // Aktualizace stavu hry
+        function gameState() {
+            document.getElementById('gameState').innerHTML = `
+                <p><code>let deck = [</code> ${deck.join(', ')}<code>]</code> (počet karet: ${deck.length})</p>
+                <p><code>let playerHand = [</code>  ${player.join(', ')}<code>]</code>  (počet karet: ${player.length})</p>
+                <p><code>let discardPile = [</code>  ${discardPile.join(', ')} <code>]</code> (počet karet: ${discardPile.length})</p>
+                <p><code>let temp = </code> ${temp || 'Žádná karta nebyla vytáhnuta'}</p>
+                <p><code>playerTemp = </code>: ${playerTemp}</p>
+            `;
+        }
+
+        function updateDescription(message) {
+            document.getElementById('description').innerHTML = message;  // Aktualizace popisu
+        }
+
+        // Inicializace hry
+        gameState();
+        updateDescription('Hra byla inicializována. Balíček obsahuje 32 karet připravených k použití.');
+    </script>
+</body>
+</html>
